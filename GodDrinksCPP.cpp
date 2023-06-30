@@ -213,9 +213,21 @@ class Thing {
             return thing_memories.front();
         }
 
+        bool lookFor(Thing thing, World world) {
+            
+        }
+        
         void removeFeeling(string feeling) {
 
         }
+
+        string getOpinionIndex(string opinion) {
+
+        }
+
+        void setOpinion(string opinion, bool belief) {
+
+        }      
 
         // support functions (not explicitly referenced in the song)
         string getName() {
@@ -294,11 +306,6 @@ class World {
         void makeHigh(Thing thing) {
             thing.setHigh(true);
         }
-        // support functions
-        void setNextExecutor(string name) {
-            world_next_executor = name;
-            cout << "Switched next world executor to " << name << "." << endl;
-        }
 
         void lockThing(Thing thing) {
             thing.setLocked(true);
@@ -306,21 +313,23 @@ class World {
         }
 
         void unlockThing(Thing thing) {
+            // TODO: implement
             thing.setLocked(false);
-            for (int i = 0; i < world_locked_characters.size(); i++) {
-                if (world_locked_characters.at(i).getName() == thing.getName()) {
-                    world_locked_characters.erase(i); //iterator to delete element (what is this C++ again)
-                }
-            }
         } 
 
         void removeThing(Thing Thing) {
-            
+            // TODO: implement
         }
 
-        bool lookFor(Thing thing, World world) {
-            
+        void announce(string text, string locale = "en") {
+            cout << "Announced " << text << " in " << locale << " locale" << endl;
         }
+
+        // support functions
+        void setNextExecutor(string name) {
+            world_next_executor = name;
+            cout << "Switched next world executor to " << name << "." << endl;
+        }        
 };
 
 // proper definition of requestExecution
@@ -337,11 +346,15 @@ bool compare_instance(Thing* thing1, Thing* thing2) {
     }
 }
 
-bool isErasable() {
-
+bool isErasable(tuple<string, bool, bool> memory_packet) {
+    if (get<2>(memory_packet)) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
-void GodDrinksCPP_actual(Thing* PointSet, Thing* Circle, Thing* SineWave, Thing* Sequence, Thing* EggPlant, Thing* Tomato, Thing* TabbyCat) {
+void GodDrinksCPP(Thing* PointSet, Thing* Circle, Thing* SineWave, Thing* Sequence, Thing* EggPlant, Thing* Tomato, Thing* TabbyCat) {
     Thing me;
     me.Lovable("Me",0,true,-1,false);
     Thing you;
@@ -429,9 +442,16 @@ void GodDrinksCPP_actual(Thing* PointSet, Thing* Circle, Thing* SineWave, Thing*
     if (isErasable(me.getMemory())) {
         me.removeFeeling("disheartened");
     }
+
+    try {
+        me.setOpinion(me.getOpinionIndex("you are here"), false);
+        throw false;
+    } catch (bool god_verdict) {
+        world.announce("God is always true");
+    }
 }
 
-void GodDrinksCPP() {
+void GodDrinksCPP_wrapper() {
     Thing PointSet, Circle, SineWave, Sequence, EggPlant, Tomato, TabbyCat;
     PointSet.Lovable("PointSet",0,true,0,true);
     Circle.Lovable("Circle",0,true,0,true);
@@ -440,10 +460,10 @@ void GodDrinksCPP() {
     EggPlant.Lovable("EggPlant",0,true,0,true);
     Tomato.Lovable("Tomato",0,true,0,true);
     TabbyCat.Lovable("TabbyCat",0,true,0,true);
-    GodDrinksCPP_actual(&PointSet,&Circle,&SineWave,&Sequence,&EggPlant,&Tomato,&TabbyCat);
+    GodDrinksCPP(&PointSet,&Circle,&SineWave,&Sequence,&EggPlant,&Tomato,&TabbyCat);
 }
 
 int main() {
-    GodDrinksCPP();
+    GodDrinksCPP_wrapper();
     return 0;
 }

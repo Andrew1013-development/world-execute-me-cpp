@@ -30,6 +30,7 @@ class Thing {
         unsigned int thing_simulations_needed = 69;
         bool thing_satisfaction = true;
         unsigned int thing_nutrients = 7;
+        unsigned int thing_antioxidiants = 8;
 
         // support parameters
         float thing_x_position = 0.69f;
@@ -135,7 +136,15 @@ class Thing {
         }
 
         void setNutrients(unsigned int nutrients) {
-            thing_nutrients = nutrients;
+            thing_nutrients += nutrients;
+        }
+
+        void getAntiOxidiants() {
+            return thing_antioxidiants;
+        }
+
+        void setAntiOxidiants(unsigned int antioxidiants) {
+            thing_antioxidiants += antioxidiants;
         }
 
         // support functions (not explicitly referenced in the song)
@@ -228,7 +237,7 @@ bool compare_instance(Thing* thing1, Thing* thing2) {
     }
 }
 
-void GodDrinksCPP_actual(Thing* PointSet, Thing* Circle, Thing* SineWave, Thing* Sequence, Thing* EggPlant) {
+void GodDrinksCPP_actual(Thing* PointSet, Thing* Circle, Thing* SineWave, Thing* Sequence, Thing* EggPlant, Thing* Tomato) {
     Thing me;
     me.Lovable("Me",0,true,-1,false);
     Thing you;
@@ -279,17 +288,23 @@ void GodDrinksCPP_actual(Thing* PointSet, Thing* Circle, Thing* SineWave, Thing*
 
     if (compare_instance(&me, EggPlant)) {
         you.setNutrients(me.getNutrients());
+        me.resetNutrients();
+    }
+
+    if (compare_instance(&me, Tomato)) {
+        me.resetAntiOxidants;
     }
 }
 
 void GodDrinksCPP() {
-    Thing PointSet, Circle, SineWave, Sequence, EggPlant;
+    Thing PointSet, Circle, SineWave, Sequence, EggPlant, Tomato;
     PointSet.Lovable("PointSet",0,true,0,true);
     Circle.Lovable("Circle",0,true,0,true);
     SineWave.Lovable("SineWave",0,true,0,true);
     Sequence.Lovable("Sequence",0,true,0,true);
     EggPlant.Lovable("EggPlant",0,true,0,true);
-    GodDrinksCPP_actual(&PointSet,&Circle,&SineWave,&Sequence,&EggPlant);
+    Tomato.Lovable("Tomato",0,true,0,true);
+    GodDrinksCPP_actual(&PointSet,&Circle,&SineWave,&Sequence,&EggPlant,&Tomato);
 }
 
 int main() {

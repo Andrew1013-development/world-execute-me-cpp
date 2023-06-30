@@ -122,6 +122,7 @@ public class GodDrinksJava {
             you.addAttribute(me.getAntioxidants().toAttribute());
             me.resetAntioxidants();
         }
+        
         // If I'm a tabby cat
         if(me instanceof TabbyCat){
             // Then I will purr for your

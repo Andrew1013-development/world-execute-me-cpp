@@ -1,13 +1,16 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <queue>
 #include <iostream>
 #include <cmath>
 using namespace std;
+#define author monocashew
 
 /*
     world.execute(me) in C++
 */
+
 class World; // forward declaration (requestExecution requires a World object so have to define World outside first)
 class Thing {
     private:
@@ -31,6 +34,12 @@ class Thing {
         bool thing_satisfaction = true;
         unsigned int thing_nutrients = 7;
         unsigned int thing_antioxidiants = 8;
+        bool thing_proof = true;
+        char thing_gender = 'M';
+        char thing_bdsm_role = 'D';
+        bool thing_high = false;
+        vector<string> thing_sensings;
+        queue<tuple<string, bool, bool>> thing_memories;
 
         // support parameters
         float thing_x_position = 0.69f;
@@ -139,12 +148,73 @@ class Thing {
             thing_nutrients += nutrients;
         }
 
-        void getAntiOxidiants() {
+        void resetNutrients() {
+            thing_nutrients = 0;
+        }
+
+        unsigned int getAntiOxidiants() {
             return thing_antioxidiants;
         }
 
         void setAntiOxidiants(unsigned int antioxidiants) {
             thing_antioxidiants += antioxidiants;
+        }
+
+        void resetAntiOxidiants() {
+            thing_antioxidiants = 0;
+        }
+
+        void purr() {
+            cout << "Purr." << endl;
+        }
+
+        void setLocked(bool state) {
+            if (thing_locked != state) {
+                thing_locked = !state;
+            } else {
+                thing_locked = state;
+            }
+        }
+
+        bool getProof() {
+            return thing_proof;
+        }
+
+        void setProof(bool proof) {
+            thing_proof = proof;
+        }
+
+        void toggleGender() {
+            if (thing_gender == 'F') {
+                thing_gender = 'M';
+            } else {
+                thing_gender = 'F';
+            }
+        }
+
+        void toggleRoleBDSM() {
+            if (thing_bdsm_role == 'S') {
+                thing_bdsm_role = 'D';
+            } else {
+                thing_bdsm_role = 'S';
+            }
+        }
+        
+        bool getSenseIndex(string sense) {
+            for (int i = 0; i < thing_sensings.size(); i++) {
+                if (sense == thing_sensings.at(i)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        tuple<string, bool, bool> getMemory() {
+            return thing_memories.front();
+        }
+
+        void removeFeeling(string feeling) {
+
         }
 
         // support functions (not explicitly referenced in the song)
@@ -156,13 +226,10 @@ class Thing {
             thing_year = year;
         }
 
-        void setLocked(bool state) {
-            if (thing_locked != state) {
-                thing_locked = !state;
-            } else {
-                thing_locked = state;
-            }
+        void setHigh(bool high) {
+            thing_high = high;
         }
+        
 };
 
 class World {
@@ -174,6 +241,7 @@ class World {
         // song parameters
         int world_year = 2023;
         vector<Thing> world_locked_characters;
+        string world_god = "me";
 
         // support parameters
         vector<map<string, string>> world_couples;
@@ -211,6 +279,21 @@ class World {
             world_couples.push_back(couple);
         }
 
+        string getGod() {
+            return world_god;
+        }
+
+        void setGod(string god) {
+            world_god = god;
+        }
+
+        void procreate(Thing thing1, Thing thing2) {
+            cout << "Procreating " << thing1.getName() << " and " << thing2.getName() << endl;
+        }
+
+        void makeHigh(Thing thing) {
+            thing.setHigh(true);
+        }
         // support functions
         void setNextExecutor(string name) {
             world_next_executor = name;
@@ -220,6 +303,23 @@ class World {
         void lockThing(Thing thing) {
             thing.setLocked(true);
             world_locked_characters.push_back(thing);
+        }
+
+        void unlockThing(Thing thing) {
+            thing.setLocked(false);
+            for (int i = 0; i < world_locked_characters.size(); i++) {
+                if (world_locked_characters.at(i).getName() == thing.getName()) {
+                    world_locked_characters.erase(i); //iterator to delete element (what is this C++ again)
+                }
+            }
+        } 
+
+        void removeThing(Thing Thing) {
+            
+        }
+
+        bool lookFor(Thing thing, World world) {
+            
         }
 };
 
@@ -237,7 +337,11 @@ bool compare_instance(Thing* thing1, Thing* thing2) {
     }
 }
 
-void GodDrinksCPP_actual(Thing* PointSet, Thing* Circle, Thing* SineWave, Thing* Sequence, Thing* EggPlant, Thing* Tomato) {
+bool isErasable() {
+
+}
+
+void GodDrinksCPP_actual(Thing* PointSet, Thing* Circle, Thing* SineWave, Thing* Sequence, Thing* EggPlant, Thing* Tomato, Thing* TabbyCat) {
     Thing me;
     me.Lovable("Me",0,true,-1,false);
     Thing you;
@@ -292,19 +396,51 @@ void GodDrinksCPP_actual(Thing* PointSet, Thing* Circle, Thing* SineWave, Thing*
     }
 
     if (compare_instance(&me, Tomato)) {
-        me.resetAntiOxidants;
+        you.setAntiOxidiants(me.getAntiOxidiants());
+        me.resetAntiOxidiants();
+    }
+
+    if (compare_instance(&me, TabbyCat)) {
+        me.purr();
+    }
+
+    if (world.getGod() == "me") {
+        me.setProof(you.getProof());
+    }
+
+    me.toggleGender();
+    world.procreate(me,you);
+    me.toggleRoleBDSM();
+    world.makeHigh(me);
+    world.makeHigh(you);
+
+    if (me.getSenseIndex("vibration")) {
+        me.addFeeling("complete");
+    }
+
+    world.unlockThing(you);
+    world.removeThing(you);
+    me.lookFor(you,world);
+    me.lookFor(you,world);
+    me.lookFor(you,world);
+    me.lookFor(you,world);
+    me.lookFor(you,world);
+
+    if (isErasable(me.getMemory())) {
+        me.removeFeeling("disheartened");
     }
 }
 
 void GodDrinksCPP() {
-    Thing PointSet, Circle, SineWave, Sequence, EggPlant, Tomato;
+    Thing PointSet, Circle, SineWave, Sequence, EggPlant, Tomato, TabbyCat;
     PointSet.Lovable("PointSet",0,true,0,true);
     Circle.Lovable("Circle",0,true,0,true);
     SineWave.Lovable("SineWave",0,true,0,true);
     Sequence.Lovable("Sequence",0,true,0,true);
     EggPlant.Lovable("EggPlant",0,true,0,true);
     Tomato.Lovable("Tomato",0,true,0,true);
-    GodDrinksCPP_actual(&PointSet,&Circle,&SineWave,&Sequence,&EggPlant,&Tomato);
+    TabbyCat.Lovable("TabbyCat",0,true,0,true);
+    GodDrinksCPP_actual(&PointSet,&Circle,&SineWave,&Sequence,&EggPlant,&Tomato,&TabbyCat);
 }
 
 int main() {

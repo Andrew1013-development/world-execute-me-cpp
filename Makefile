@@ -5,4 +5,4 @@ else
 endif
 
 all:
-	g++ -o world-execute-me.$(EXECUTABLE_EXTENSION) main.cpp -std=c++20 -O3
+	g++ -o world-execute-me.$(EXECUTABLE_EXTENSION) GodDrinksCPP.cpp -std=c++20 -O3

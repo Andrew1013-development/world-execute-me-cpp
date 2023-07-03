@@ -1,17 +1,25 @@
+#include <tuple>
 #include <string>
 #include <vector>
 #include <map>
 #include <queue>
 #include <iostream>
 #include <cmath>
+#include <algorithm>
+//#include "GodDrinksCPP_src.hpp"
 using namespace std;
+//using namespace GodDrinksCPP;
 #define author monocashew
 
 /*
-    world.execute(me) in C++
+    world.execute(me) in C++ (with some modifications)
 */
 
-class World; // forward declaration (requestExecution requires a World object so have to define World outside first)
+// forward declaration
+class Thing;
+class World; 
+bool compare_instance(Thing* thing1, Thing* thing2);
+
 class Thing {
     private:
         // initial parameters
@@ -23,7 +31,7 @@ class Thing {
 
         // song parameters
         tuple<unsigned int, unsigned int, unsigned int> thing_dimensions = make_tuple(1,2,3); 
-        unsigned int thing_circumference;
+        unsigned int thing_circumference = 0;
         vector<map<string, double>> thing_actions;
         int thing_limit = 4;
         string thing_current = "DC";
@@ -40,6 +48,8 @@ class Thing {
         bool thing_high = false;
         vector<string> thing_sensings;
         queue<tuple<string, bool, bool>> thing_memories;
+        vector<tuple<string, bool>> thing_opinions;
+        string thing_execution = "amogus";
 
         // support parameters
         float thing_x_position = 0.69f;
@@ -57,40 +67,49 @@ class Thing {
 
         tuple<unsigned int, unsigned int, unsigned int> getDimensions() {
             return thing_dimensions;
+            cout << get<0>(thing_dimensions) << " " << get<1>(thing_dimensions) << " " << get<0>(thing_dimensions) << endl;
         }
 
         void setDimensions(tuple<unsigned int, unsigned int, unsigned int> dimensions) {
             thing_dimensions = dimensions;
+            cout << get<0>(thing_dimensions) << " " << get<1>(thing_dimensions) << " " << get<0>(thing_dimensions) << endl;
         }
 
         unsigned int getCircumference() {
             return thing_circumference;
+            cout << thing_circumference << endl;
         }
 
         void setCircumference(unsigned int circumference) {
             thing_circumference = circumference;
+            cout << thing_circumference << endl;
         }
 
         void addAction(string name, double where) {
             map<string, double> action_packet;
             action_packet[name] = where;
             thing_actions.push_back(action_packet);
+            cout << name << " " << where << endl;
         }
 
         float getXPosition() {
             return thing_x_position;
+            cout << thing_x_position << endl;
         }
 
         float getTangent(float x_pos) {
             return tanf(x_pos);
+            cout << tanf(x_pos) << endl;
         }
 
         int getLimit() {
             return thing_limit;
+            cout << thing_limit << endl;
         }
 
         void setLimit(int limit) {
             thing_limit = limit;
+            cout << thing_limit << endl;
         }
 
         void toggleCurrent() {
@@ -99,6 +118,7 @@ class Thing {
             } else {
                 thing_current = "DC";
             }
+            cout << thing_current << endl;
         }
 
         void canSee(bool status) { // cursed code incoming
@@ -107,35 +127,48 @@ class Thing {
             } else {
                 thing_cansee = status;
             }
+            cout << thing_cansee << endl;
         }
         
         void addFeeling(string feeling) {
             thing_feelings.push_back(feeling);
+            cout << feeling << endl;
         }
         
         unsigned int getNumSimulationsAvailable() {
             return thing_simulations_available;
+            cout << thing_simulations_available << endl;
         }
 
         unsigned int getNumSimulationsNeeded() {
             return thing_simulations_needed;
+            cout << thing_simulations_needed << endl;
         }
 
         bool getSatisfaction() {
             return thing_satisfaction;
+            cout << thing_satisfaction << endl;
         }
 
         void setSatisfaction(bool satisfaction) {
             thing_satisfaction = satisfaction;
+            cout << thing_satisfaction << endl;
         }
 
         int getFeelingIndex(string search_feeling) {
+            bool found = false;
             for (int i = 0; i < thing_feelings.size(); i++) {
                 if (search_feeling == thing_feelings.at(i)) {
-                    return 0;
+                    found = true;
+                    break;
                 } 
             }
-            return -1;
+            if (found) {
+                return 0;
+            } else {
+                return -1;
+            }
+            
         }
 
         void requestExecution(World world); // World object does not exist early in this code
@@ -201,47 +234,80 @@ class Thing {
         }
         
         bool getSenseIndex(string sense) {
+            bool found = false;
             for (int i = 0; i < thing_sensings.size(); i++) {
                 if (sense == thing_sensings.at(i)) {
-                    return true;
+                    found = true;
+                    break;
                 }
             }
-            return false;
+            return found;
         }
 
         tuple<string, bool, bool> getMemory() {
             return thing_memories.front();
         }
 
-        bool lookFor(Thing thing, World world) {
-            
-        }
+        bool lookFor(Thing thing, World world);
         
         void removeFeeling(string feeling) {
-
+            vector<string>::iterator delete_iter;
+            delete_iter = remove(thing_feelings.begin(),thing_feelings.end(),feeling);
         }
 
         string getOpinionIndex(string opinion) {
-
+            string search_opinion = "";
+            vector<tuple<string, bool>>::iterator search_iter;
+            for (search_iter = thing_opinions.begin(); search_iter != thing_opinions.end(); search_iter++) {
+                search_opinion = get<0>(*search_iter);
+                if (search_opinion == opinion) {
+                    break;
+                }
+            }
+            return opinion;
         }
 
         void setOpinion(string opinion, bool belief) {
-
+            tuple<string, bool> opinion_packet = make_tuple(opinion, belief);
+            thing_opinions.push_back(opinion_packet);
         }      
+
+        string getExecution() {
+            return thing_execution;
+        }
+
+        void setExecution(string execution) {
+            thing_execution = execution;
+        }
+
+        void escapeWorld(World world);
+
+        void takeExamTopic(string topic) {
+            cout << "Taking exam in " << topic << endl;
+        }
+
+        void getAlgebraicExpression(string topic) {
+            cout << "Algebraic expression of " << topic << " is unknown." << endl;
+        }
 
         // support functions (not explicitly referenced in the song)
         string getName() {
             return thing_name;
+            cout << thing_name << endl;
         }
 
         void timeTravel(int year) {
             thing_year = year;
+            cout << year << endl;
         }
 
         void setHigh(bool high) {
             thing_high = high;
         }
-        
+
+        void escapeTopic(string topic) {
+            cout << thing_name << " escaped from " << topic << endl;
+        }
 };
 
 class World {
@@ -259,6 +325,7 @@ class World {
         vector<map<string, string>> world_couples;
         string world_executor = "amogus";
         string world_next_executor = "amogus";
+        bool world_in_execution = false;
     public:
         // functions
         void World_set(int num) {
@@ -271,6 +338,7 @@ class World {
 
         void startSimulation() {
             cout << "Simulation started." << endl;
+            world_in_execution = true;
         }
 
         void timeTravelForTwo(string common_era, unsigned int year, Thing* thing1, Thing* thing2) {
@@ -289,6 +357,7 @@ class World {
             map<string, string> couple;
             couple[thing1.getName()] = thing2.getName();
             world_couples.push_back(couple);
+            cout << "United " << thing1.getName() << " and " << thing2.getName() << endl;
         }
 
         string getGod() {
@@ -312,17 +381,50 @@ class World {
             world_locked_characters.push_back(thing);
         }
 
+        void removeThing(Thing thing);
+
         void unlockThing(Thing thing) {
             // TODO: implement
             thing.setLocked(false);
         } 
 
-        void removeThing(Thing Thing) {
-            // TODO: implement
-        }
-
         void announce(string text, string locale = "en") {
             cout << "Announced " << text << " in " << locale << " locale" << endl;
+        }
+        
+        bool getThing(Thing thing) {
+            bool found = false;
+            vector<Thing>::iterator search_iter;
+
+            for (search_iter = world_characters.begin(); search_iter != world_characters.end(); search_iter++) {
+                if (compare_instance(&*search_iter, &thing)) {
+                    found = true;
+                    break;
+                }
+            }
+            return found;
+        }
+
+        bool isExecutableBy(Thing thing) {
+            if (thing.getName() == world_executor || thing.getName() == world_next_executor) {
+                return true;     
+            } else {
+                return false;
+            }
+        }
+
+        void runExecution() {
+            if (world_in_execution) {
+                cout << "Execution already running." << endl;
+            } else {
+                cout << "Running execution." << endl;
+                world_in_execution = true;
+            }
+            
+        }
+
+        void execute(Thing thing) {
+            cout << "Executed Thing named " << thing.getName() << endl;
         }
 
         // support functions
@@ -330,12 +432,35 @@ class World {
             world_next_executor = name;
             cout << "Switched next world executor to " << name << "." << endl;
         }        
+
+        vector<Thing> getThings() {
+            return world_characters;
+        }
 };
 
 // proper definition of requestExecution
 void Thing::requestExecution(World world) {
     cout << "World executor change requested" << endl;
     world.setNextExecutor(thing_name);
+}
+
+bool Thing::lookFor(Thing thing, World world) {
+    vector<Thing> fetched_characters = world.getThings();
+    vector<Thing>::iterator search_iterator;
+    bool found = false;
+
+    for (search_iterator = fetched_characters.begin(); search_iterator != fetched_characters.end(); search_iterator++) {
+        if (search_iterator->getName() == thing.getName()) {
+            found = true;
+            break;
+        }
+    }
+    return found;
+}
+
+void Thing::escapeWorld(World world) {
+    cout << thing_name << " escaped from world." << endl;
+    //world.removeThing();
 }
 
 bool compare_instance(Thing* thing1, Thing* thing2) {
@@ -346,6 +471,18 @@ bool compare_instance(Thing* thing1, Thing* thing2) {
     }
 }
 
+void World::removeThing(Thing thing) {
+    vector<Thing>::iterator delete_iter, get_wiped_of_the_vector;
+    for (delete_iter = world_characters.begin(); delete_iter != world_characters.end(); delete_iter++) {
+        if (compare_instance(&*delete_iter,&thing)) {
+            //bad_alloc if you delete straight in the loop, assign an external iterator for deletion
+            get_wiped_of_the_vector = delete_iter; 
+            break;
+        }
+    }
+    world_characters.erase(get_wiped_of_the_vector);
+}
+
 bool isErasable(tuple<string, bool, bool> memory_packet) {
     if (get<2>(memory_packet)) {
         return true;
@@ -354,7 +491,7 @@ bool isErasable(tuple<string, bool, bool> memory_packet) {
     }
 }
 
-void GodDrinksCPP(Thing* PointSet, Thing* Circle, Thing* SineWave, Thing* Sequence, Thing* EggPlant, Thing* Tomato, Thing* TabbyCat) {
+void GodDrinksCPP_func(Thing* PointSet, Thing* Circle, Thing* SineWave, Thing* Sequence, Thing* EggPlant, Thing* Tomato, Thing* TabbyCat) {
     Thing me;
     me.Lovable("Me",0,true,-1,false);
     Thing you;
@@ -389,11 +526,12 @@ void GodDrinksCPP(Thing* PointSet, Thing* Circle, Thing* SineWave, Thing* Sequen
 
     world.timeTravelForTwo("AD",617,&me,&you);
     world.timeTravelForTwo("BC",3691,&me,&you);
-
+    
     world.unite(me, you);
     
+    cout << "hamham" << endl;
     if (me.getNumSimulationsAvailable() >= you.getNumSimulationsNeeded()) {
-        you.setSatisfaction(me.getSatisfaction()); // toSatisfaction() is similar to getSatisfaction() in this context
+        you.setSatisfaction(me.getSatisfaction());
     }
 
     if (me.getFeelingIndex("happy") != -1) {
@@ -430,9 +568,9 @@ void GodDrinksCPP(Thing* PointSet, Thing* Circle, Thing* SineWave, Thing* Sequen
     if (me.getSenseIndex("vibration")) {
         me.addFeeling("complete");
     }
-
-    world.unlockThing(you);
-    world.removeThing(you);
+    
+    world.unlockThing(you); 
+    world.removeThing(you); //bad_alloc here
     me.lookFor(you,world);
     me.lookFor(you,world);
     me.lookFor(you,world);
@@ -449,18 +587,56 @@ void GodDrinksCPP(Thing* PointSet, Thing* Circle, Thing* SineWave, Thing* Sequen
     } catch (bool god_verdict) {
         world.announce("God is always true");
     }
+
+    world.runExecution();
+    world.runExecution();
+    world.runExecution();
+    world.runExecution();
+    world.runExecution();
+    world.runExecution();
+    world.runExecution();
+    world.runExecution();
+    world.runExecution();
+    world.runExecution();
+    world.runExecution();
+    world.runExecution();
+    world.announce("1", "de");
+    world.announce("2", "es");
+    world.announce("3", "fr");
+    world.announce("4", "kr");
+    world.announce("5", "se");
+    world.announce("6", "cn");
+    world.runExecution();
+
+    if (world.isExecutableBy(me)) {
+        you.setExecution(me.getExecution());
+    }
+
+    if (world.getThing(me) != -1) {
+        world.runExecution();
+    }
+
+    me.escapeWorld(world);
+
+    me.takeExamTopic("love");
+    me.takeExamTopic("love");
+    me.getAlgebraicExpression("love");
+    //me.escapeTopic("love");
+
+    world.execute(me);
 }
 
 void GodDrinksCPP_wrapper() {
     Thing PointSet, Circle, SineWave, Sequence, EggPlant, Tomato, TabbyCat;
-    PointSet.Lovable("PointSet",0,true,0,true);
-    Circle.Lovable("Circle",0,true,0,true);
-    SineWave.Lovable("SineWave",0,true,0,true);
-    Sequence.Lovable("Sequence",0,true,0,true);
-    EggPlant.Lovable("EggPlant",0,true,0,true);
-    Tomato.Lovable("Tomato",0,true,0,true);
-    TabbyCat.Lovable("TabbyCat",0,true,0,true);
-    GodDrinksCPP(&PointSet,&Circle,&SineWave,&Sequence,&EggPlant,&Tomato,&TabbyCat);
+    PointSet.Lovable("Me",0,true,0,true);
+    Circle.Lovable("Me",0,true,0,true);
+    SineWave.Lovable("Me",0,true,0,true);
+    Sequence.Lovable("Me",0,true,0,true);
+    EggPlant.Lovable("Me",0,true,0,true);
+    Tomato.Lovable("Me",0,true,0,true);
+    TabbyCat.Lovable("Me",0,true,0,true);
+    cout << sizeof(PointSet) << endl;
+    GodDrinksCPP_func(&PointSet,&Circle,&SineWave,&Sequence,&EggPlant,&Tomato,&TabbyCat);
 }
 
 int main() {

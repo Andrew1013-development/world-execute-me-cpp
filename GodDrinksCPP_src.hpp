@@ -8,36 +8,41 @@ namespace GodDrinksCPP {
     //forward declaration (again)
     class Thing;
     class World;
-    
+
     class Thing {
         private:
+            // initial parameters
             std::string thing_name;
             int whatever_num1;
             bool whatever_bool1;
             int whatever_num2;
             bool whatever_bool2;
-            std::tuple<unsigned int, unsigned int, unsigned int> thing_dimensions;
-            unsigned int thing_circumference;
+
+            // song parameters
+            std::tuple<unsigned int, unsigned int, unsigned int> thing_dimensions = std::make_tuple(1,2,3); 
+            unsigned int thing_circumference = 0;
             std::vector<std::map<std::string, double>> thing_actions;
-            int thing_limit;
-            std::string thing_current;
+            int thing_limit = 4;
+            std::string thing_current = "DC";
             bool thing_cansee = true;
             std::vector<std::string> thing_feelings;
-            unsigned int thing_simulations_available;
-            unsigned int thing_simulations_needed;
-            bool thing_satisfaction;
-            unsigned int thing_nutrients;
-            unsigned int thing_antioxidiants;
-            bool thing_proof;
-            char thing_gender;
-            char thing_bdsm_role;
+            unsigned int thing_simulations_available = 420;
+            unsigned int thing_simulations_needed = 69;
+            bool thing_satisfaction = true;
+            unsigned int thing_nutrients = 7;
+            unsigned int thing_antioxidiants = 8;
+            bool thing_proof = true;
+            char thing_gender = 'M';
+            char thing_bdsm_role = 'D';
             bool thing_high = false;
             std::vector<std::string> thing_sensings;
             std::queue<std::tuple<std::string, bool, bool>> thing_memories;
             std::vector<std::tuple<std::string, bool>> thing_opinions;
-            std::string thing_execution;
-            float thing_x_position;
-            int thing_year;
+            std::string thing_execution = "amogus";
+
+            // support parameters
+            float thing_x_position = 0.69f;
+            int thing_year = 2023;
             bool thing_locked = false;
         public:
             void Lovable(std::string name, int int1, bool bool1, int int2, bool bool2);
@@ -87,17 +92,23 @@ namespace GodDrinksCPP {
             void setHigh(bool high);
             void escapeTopic(std::string topic);
     };
+    
     class World {
         private:
+            // initial parameters
             int world_num;
             std::vector<Thing> world_characters;
+            
+            // song parameters
             int world_year = 2023;
             std::vector<Thing> world_locked_characters;
-            std::string world_god;
+            std::string world_god = "me";
+
+            // support parameters
             std::vector<std::map<std::string, std::string>> world_couples;
-            std::string world_executor;
-            std::string world_next_executor;
-            bool world_in_execution;
+            std::string world_executor = "amogus";
+            std::string world_next_executor = "amogus";
+            bool world_in_execution = false;
         public:
             void World_set(int num);
             void addThing(Thing thing);
@@ -111,7 +122,7 @@ namespace GodDrinksCPP {
             void lockThing(Thing thing);
             void removeThing(Thing thing);
             void unlockThing(Thing thing);
-            void announce(std::string text, std::string locale = "en");
+            void announce(std::string text, std::string locale);
             bool getThing(Thing thing);
             bool isExecutableBy(Thing thing);
             void runExecution();
@@ -119,6 +130,7 @@ namespace GodDrinksCPP {
             void setNextExecutor(std::string name);
             std::vector<Thing> getThings();
     };
+
     bool compare_instance(Thing* thing1, Thing* thing2);
     bool isErasable(std::tuple<std::string, bool, bool> memory_packet);
 }

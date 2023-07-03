@@ -1,5 +1,5 @@
 DEBUG_FLAG = -g3 -O0 -march=native
-PRODUCTION_FLAG = -O3 -march=native -L. -I. -lGodDrinksCPP_src
+PRODUCTION_FLAG = -O3 -march=native -L./ -I./ -lGodDrinksCPP_src
 ifeq ($(OS), Windows_NT)
 	EXECUTABLE_EXTENSION = exe
 else

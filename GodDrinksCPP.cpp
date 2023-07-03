@@ -6,15 +6,16 @@
 #include <iostream>
 #include <cmath>
 #include <algorithm>
-//#include "GodDrinksCPP_src.hpp"
+#include "GodDrinksCPP_src.hpp"
 using namespace std;
-//using namespace GodDrinksCPP;
+using namespace GodDrinksCPP;
 #define author monocashew
 
 /*
     world.execute(me) in C++ (with some modifications)
 */
 
+/*
 // forward declaration
 class Thing;
 class World; 
@@ -490,6 +491,7 @@ bool isErasable(tuple<string, bool, bool> memory_packet) {
         return false;
     }
 }
+*/
 
 void GodDrinksCPP_func(Thing* PointSet, Thing* Circle, Thing* SineWave, Thing* Sequence, Thing* EggPlant, Thing* Tomato, Thing* TabbyCat) {
     Thing me;
@@ -570,7 +572,7 @@ void GodDrinksCPP_func(Thing* PointSet, Thing* Circle, Thing* SineWave, Thing* S
     }
     
     world.unlockThing(you); 
-    world.removeThing(you); //bad_alloc here
+    world.removeThing(you);
     me.lookFor(you,world);
     me.lookFor(you,world);
     me.lookFor(you,world);
@@ -585,7 +587,7 @@ void GodDrinksCPP_func(Thing* PointSet, Thing* Circle, Thing* SineWave, Thing* S
         me.setOpinion(me.getOpinionIndex("you are here"), false);
         throw false;
     } catch (bool god_verdict) {
-        world.announce("God is always true");
+        world.announce("God is always true",""); //no specified locales on song's lyrics
     }
 
     world.runExecution();
@@ -600,12 +602,14 @@ void GodDrinksCPP_func(Thing* PointSet, Thing* Circle, Thing* SineWave, Thing* S
     world.runExecution();
     world.runExecution();
     world.runExecution();
+
     world.announce("1", "de");
     world.announce("2", "es");
     world.announce("3", "fr");
     world.announce("4", "kr");
     world.announce("5", "se");
     world.announce("6", "cn");
+    
     world.runExecution();
 
     if (world.isExecutableBy(me)) {
@@ -621,7 +625,7 @@ void GodDrinksCPP_func(Thing* PointSet, Thing* Circle, Thing* SineWave, Thing* S
     me.takeExamTopic("love");
     me.takeExamTopic("love");
     me.getAlgebraicExpression("love");
-    //me.escapeTopic("love");
+    me.escapeTopic("love");
 
     world.execute(me);
 }
